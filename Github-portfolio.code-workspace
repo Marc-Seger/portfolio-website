@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../bitcoin-market-dashboard"
+		},
+		{
+			"path": "../bitcoin-price-predictor-app"
 		}
 	],
 	"settings": {}
