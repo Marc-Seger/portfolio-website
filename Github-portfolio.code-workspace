@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../bitcoin-market-dashboard"
+		}
+	],
+	"settings": {}
+}
