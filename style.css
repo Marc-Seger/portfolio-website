@@ -1,8 +1,11 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    color: #222;
     margin: 0;
-    padding: 0 0 60px 0;  /* Padding bottom to avoid footer overlap */
+    padding: 0 0 60px 0;
     background-color: #f4f4f4;
+    line-height: 1.6;
 }
 
 header {
@@ -23,6 +26,8 @@ main {
 
 h1, h2 {
     color: #333;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 ul {
@@ -32,7 +37,7 @@ ul {
 
 ul li {
     margin: 10px 0;
-    font-size: 1.1em;
+    font-size: 1rem;
 }
 
 footer {
