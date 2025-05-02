@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../bitcoin-price-predictor-app"
+		},
+		{
+			"path": "../Bitcoin_PowerBI_Dashboard"
 		}
 	],
 	"settings": {}
