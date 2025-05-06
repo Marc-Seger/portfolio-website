@@ -13,7 +13,7 @@
   <!-- Hero/Header -->
   <header class="project-header">
     <div class="container">
-      <h1>📈 Bitcoin Price Predictor</h1>
+      <h1><img src="images/search_icon.png" class="icon-large" alt="Search icon"> Bitcoin Price Predictor</h1>
       <p>Forecasting Bitcoin using ML models: GRU & Random Forest</p>
     </div>
   </header>
@@ -22,7 +22,25 @@
   <main class="container">
     <section class="project-section">
       <h2>🔍 Overview</h2>
-      <p>This app uses Random Forest and GRU models to forecast Bitcoin prices over short- and long-term horizons. Features include macroeconomic indicators, technical indicators, and on-chain signals.</p>
+      <p>
+        This application uses <strong>machine learning models</strong> (Random Forest and GRU) to forecast Bitcoin prices over different time horizons.
+        <br><br>
+        Short-term predictions are made using tree-based models like Random Forest, while long-term trends are captured using deep learning (GRU).
+        The models leverage a rich feature set including:
+      </p>
+      <ul class="feature-list">
+        <li>📈 Technical indicators (MACD, EMA, Bollinger Bands, etc.)</li>
+        <li>💰 On-chain data (active addresses, exchange flows)</li>
+        <li>🧠 Sentiment signals (Google Trends, Fear & Greed Index)</li>
+        <li>🌍 Macroeconomic data (S&P 500, Gold, DXY, CPI)</li>
+        <li>🔁 Lagged prices & rolling averages</li>
+      </ul>
+    </section>
+
+    <section class="project-section">
+      <h2>🧠 Model Architecture Preview</h2>
+      <p>Below is a preview of the model training and prediction interface:</p>
+      <img src="images/price_predictor_mockup.png" alt="Model preview" class="screenshot">
     </section>
 
     <section class="project-section">
