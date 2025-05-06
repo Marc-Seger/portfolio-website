@@ -4,33 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bitcoin Price Predictor | Marc Seger</title>
+  <meta name="description" content="Machine learning-based Bitcoin forecast using Random Forest and GRU models." />
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header class="hero">
+
+  <!-- Hero/Header -->
+  <header class="project-header">
     <div class="container">
-      <h1>Bitcoin Price Predictor</h1>
-      <p>Machine learning-based BTC forecasts.</p>
+      <h1>📈 Bitcoin Price Predictor</h1>
+      <p>Forecasting Bitcoin using ML models: GRU & Random Forest</p>
     </div>
   </header>
 
+  <!-- Main Content -->
   <main class="container">
-    <section>
-      <h2>Overview</h2>
-      <p>This app uses Random Forest and GRU models to predict Bitcoin prices over different horizons.</p>
+    <section class="project-section">
+      <h2>🔍 Overview</h2>
+      <p>This app uses Random Forest and GRU models to forecast Bitcoin prices over short- and long-term horizons. Features include macroeconomic indicators, technical indicators, and on-chain signals.</p>
     </section>
-    <section>
-      <h2>Links</h2>
-      <ul>
-        <li><a href="https://bitcoin-predictor.streamlit.app/" target="_blank">View Live Project</a></li>
+
+    <section class="project-section">
+      <h2>🔗 Links</h2>
+      <ul class="link-list">
+        <li><a href="https://bitcoin-predictor.streamlit.app/" target="_blank">🌐 Live Streamlit App</a></li>
+        <li><a href="https://github.com/Marc-Seger/bitcoin-price-predictor-app" target="_blank">📁 GitHub Repository</a></li>
       </ul>
     </section>
-    <p><a href="index.html">← Back to Portfolio</a></p>
+
+    <div class="back-link">
+      <a href="index.html">← Back to Portfolio</a>
+    </div>
   </main>
 
+  <!-- Footer -->
   <footer>
     <p>&copy; <span id="year"></span> Marc Seger</p>
   </footer>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
