@@ -2,16 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Marc Seger's Portfolio</title>
   <meta name="description" content="Marc Seger's Data Science Portfolio – Real-world projects in Bitcoin analytics, predictive modeling, and data dashboards." />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+    }
+
+    header {
+      background: #161b22;
+      padding: 3rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #30363d;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      color: #58a6ff;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      color: #8b949e;
+    }
+
+    main {
+      padding: 2rem 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: #58a6ff;
+      margin-top: 2rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 1.2rem;
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: #8b949e;
+      border-top: 1px solid #30363d;
+    }
+
+    footer a {
+      color: #58a6ff;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1><strong>Welcome to Marc Seger's Portfolio</strong></h1>
-    <p>Data Analyst | Machine Learning Enthusiast | Financial Markets Explorer</p>
+    <h1>Marc Seger's Portfolio</h1>
+    <p>Data Analyst &bull; Machine Learning &bull; Financial Markets</p>
   </header>
 
   <main>
@@ -19,7 +95,7 @@
       <h2>About Me</h2>
       <p>
         I'm Marc, a data analyst passionate about applying data science and machine learning to real-world finance and blockchain challenges. 
-        My work focuses on building predictive models, financial dashboards, and extracting insights from complex datasets.
+        I specialize in predictive modeling, financial dashboards, and market intelligence.
       </p>
     </section>
 
@@ -27,13 +103,13 @@
       <h2>Projects</h2>
       <ul>
         <li>
-          <a href="bitcoin-dashboard.html">📊 Bitcoin & Assets Dashboard</a> — Live Streamlit app visualizing BTC, stocks, and macro trends.
+          <a href="bitcoin-dashboard.html"><i data-lucide="bar-chart-3"></i> Bitcoin & Assets Dashboard</a> &mdash; Visualizing BTC, stocks, and macro trends.
         </li>
         <li>
-          <a href="bitcoin-price-predictor.html">📈 Bitcoin Price Predictor</a> — <em>Work in Progress</em>. Predict BTC price using machine learning.
+          <a href="bitcoin-price-predictor.html"><i data-lucide="trending-up"></i> Bitcoin Price Predictor</a> &mdash; <em>Work in Progress</em>. Predict BTC prices.
         </li>
         <li>
-          <span>📉 Power BI Dashboard</span> — <em>Coming Soon</em>. Interactive Bitcoin + Macro dashboard in Power BI.
+          <span><i data-lucide="activity"></i> Power BI Dashboard</span> &mdash; <em>Coming Soon</em>. Interactive Bitcoin + Macro dashboard.
         </li>
       </ul>
     </section>
@@ -50,6 +126,7 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+    lucide.createIcons();
   </script>
 </body>
 </html>
