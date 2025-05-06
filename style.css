@@ -93,14 +93,14 @@
   
   /* === Footer === */
   footer {
-    background-color: #111827; /* same as body */
-    color: #cbd5e1;            /* soft gray, readable */
+    background-color: #0f172a;  /* same as body */
+    color: #cbd5e1;
     text-align: center;
     padding: 20px 10px;
     font-size: 0.9rem;
     position: relative;
     width: 100%;
-    border-top: 1px solid #1e293b; /* consistent with card borders */
+    border-top: 1px solid #1e293b;
   }
 
   /* === Footer Links === */
