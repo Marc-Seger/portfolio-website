@@ -81,6 +81,13 @@
     text-overflow: ellipsis;
   }
 
+  .icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+
   .card p {
     font-size: 0.95rem;
     margin-bottom: 1rem;
