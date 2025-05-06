@@ -3,58 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marc Seger's Portfolio</title>
-  <meta name="description" content="Marc Seger's Data Science Portfolio – Real-world projects in Bitcoin analytics, predictive modeling, and data dashboards." />
+  <title>Marc Seger | Portfolio</title>
+  <meta name="description" content="Marc Seger's Data Portfolio – Bitcoin, machine learning, and financial dashboards." />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
-  <!-- Google Fonts: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1>Marc Seger</h1>
-    <p>Data Analysis &bull; Machine Learning &bull; Financial Markets</p>
+  <header class="hero">
+    <div class="container">
+      <h1>Marc Seger</h1>
+      <p>Data Analyst | ML Enthusiast | Financial Market Explorer</p>
+    </div>
   </header>
 
-  <main>
-    <section>
-      <h2>About Me</h2>
-      <p>
-        I'm Marc, a data analyst passionate about applying data science and machine learning to real-world finance and blockchain challenges. 
-        I specialize in predictive modeling, financial dashboards, and market intelligence.
-      </p>
+  <main class="container">
+    <section class="about">
+      <img src="images/profile.jpg" alt="Marc Seger" class="profile-pic">
+      <div>
+        <h2>About Me</h2>
+        <p>I'm Marc, a data analyst passionate about financial data, ML, and crypto.</p>
+        <div class="tags">
+          <span>Python</span><span>SQL</span><span>Power BI</span><span>Streamlit</span><span>Financial Modeling</span>
+        </div>
+      </div>
     </section>
 
     <section>
       <h2>Projects</h2>
-      <ul>
-        <li>
-          <a href="bitcoin-dashboard.html"><i data-lucide="bar-chart-3"></i> Bitcoin & Assets Dashboard</a> &mdash; Visualizing BTC, stocks, and macro trends.
-        </li>
-        <li>
-          <a href="bitcoin-price-predictor.html"><i data-lucide="trending-up"></i> Bitcoin Price Predictor</a> &mdash; <em>Work in Progress</em>. Predict BTC prices.
-        </li>
-        <li>
-          <span><i data-lucide="activity"></i> Power BI Dashboard</span> &mdash; <em>Coming Soon</em>. Interactive Bitcoin + Macro dashboard.
-        </li>
-      </ul>
+      <div class="projects">
+        <div class="card">
+          <h3>📊 Bitcoin & Assets Dashboard</h3>
+          <p>Live Streamlit app visualizing BTC, stocks, and macro trends.</p>
+          <a href="bitcoin-dashboard.html">View Project →</a>
+        </div>
+        <div class="card">
+          <h3>📈 BTC Price Predictor</h3>
+          <p>Work in Progress: Predict BTC price using machine learning.</p>
+          <a href="bitcoin-price-predictor.html">View Project →</a>
+        </div>
+        <div class="card">
+          <h3>📉 Power BI Dashboard</h3>
+          <p>Coming Soon: Interactive Bitcoin + Macro dashboard in Power BI.</p>
+          <a href="#">View Project →</a>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>
-      Connect with me:
-      <a href="https://www.linkedin.com/in/marc-seger-62942368/?locale=en_US" target="_blank">LinkedIn</a> |
-      <a href="https://github.com/Marc-Seger" target="_blank">GitHub</a>
-    </p>
+    <p>Connect with me: <a href="https://www.linkedin.com/in/marc-seger-62942368/">LinkedIn</a> | <a href="https://github.com/Marc-Seger">GitHub</a></p>
     <p>&copy; <span id="year"></span> Marc Seger</p>
   </footer>
-
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    lucide.createIcons();
   </script>
 </body>
 </html>
