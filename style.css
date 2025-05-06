@@ -90,3 +90,79 @@
     color: #2563eb;
   }
   
+/* Project Page Header */
+.project-header {
+    text-align: center;
+    padding: 4rem 1rem 2rem;
+    background: linear-gradient(135deg, #6366f1, #4338ca);
+    color: white;
+  }
+  
+  .project-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .project-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  /* Project Sections */
+  .project-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  .project-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+  }
+  
+  .project-section p,
+  .project-section li {
+    font-size: 1rem;
+    color: #334155;
+  }
+  
+  /* List Styling */
+  .feature-list,
+  .link-list {
+    padding-left: 1.2rem;
+    list-style: disc;
+    margin-top: 0.5rem;
+  }
+  
+  .feature-list li,
+  .link-list li {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Screenshot Image */
+  .screenshot {
+    border-radius: 8px;
+    margin-top: 1rem;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Back Link */
+  .back-link {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .back-link a {
+    color: #2563eb;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+  

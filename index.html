@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- Hero Section -->
   <header class="hero">
     <div class="container">
       <h1>Marc Seger</h1>
@@ -17,18 +19,26 @@
     </div>
   </header>
 
+  <!-- Main Content -->
   <main class="container">
+
+    <!-- About Section -->
     <section class="about">
-      <img src="images/profile.jpg" alt="Marc Seger" class="profile-pic">
+      <img src="images/profile.jpg" alt="Marc Seger" class="profile-pic" />
       <div>
         <h2>About Me</h2>
         <p>I'm Marc, a data analyst passionate about financial data, ML, and crypto.</p>
         <div class="tags">
-          <span>Python</span><span>SQL</span><span>Power BI</span><span>Streamlit</span><span>Financial Modeling</span>
+          <span>Python</span>
+          <span>SQL</span>
+          <span>Power BI</span>
+          <span>Streamlit</span>
+          <span>Financial Modeling</span>
         </div>
       </div>
     </section>
 
+    <!-- Projects Section -->
     <section>
       <h2>Projects</h2>
       <div class="projects">
@@ -49,12 +59,19 @@
         </div>
       </div>
     </section>
+
   </main>
 
+  <!-- Footer -->
   <footer>
-    <p>Connect with me: <a href="https://www.linkedin.com/in/marc-seger-62942368/">LinkedIn</a> | <a href="https://github.com/Marc-Seger">GitHub</a></p>
+    <p>Connect with me: 
+      <a href="https://www.linkedin.com/in/marc-seger-62942368/" target="_blank">LinkedIn</a> | 
+      <a href="https://github.com/Marc-Seger" target="_blank">GitHub</a>
+    </p>
     <p>&copy; <span id="year"></span> Marc Seger</p>
   </footer>
+
+  <!-- Script -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
