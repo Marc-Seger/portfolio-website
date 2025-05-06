@@ -93,16 +93,18 @@
   
   /* === Footer === */
   footer {
+    background-color: rgba(30, 30, 40, 0.9);  /* darker and less opaque */
+    color: #ccc;
     text-align: center;
-    padding: 24px 16px;
-    background-color: transparent;
-    font-size: 0.95rem;
-    color: #94a3b8;
-    position: fixed;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    position: relative;  /* change from fixed to relative */
     bottom: 0;
     width: 100%;
-    backdrop-filter: blur(10px);
-  }
+    border-top: 1px solid #444;
+    backdrop-filter: none; /* remove blur if it hides content */
+}
+
   
   /* === Footer Links === */
   footer a {
