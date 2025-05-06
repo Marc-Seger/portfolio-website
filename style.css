@@ -57,12 +57,13 @@
     justify-content: center;
     gap: 2rem;
     margin-top: 1.5rem;
-    flex-wrap: nowrap;
-  }  
+    flex-wrap: wrap; /* Allow wrapping for responsive layout */
+  }
   
   .card {
     background: white;
-    width: 360px; /* fixed width based on widest card */
+    flex: 1 1 340px; /* Makes all cards grow/shrink equally with min width */
+    max-width: 340px;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -70,8 +71,7 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: 230px;
-  }
-  
+  }  
   
   .card h3 {
     font-size: 1.1rem;
