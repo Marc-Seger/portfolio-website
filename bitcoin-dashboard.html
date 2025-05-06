@@ -1,50 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitcoin & Market Dashboard | Marc Seger</title>
-    <meta name="description" content="Interactive Bitcoin & market dashboard built with Python, Streamlit, and financial data APIs.">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bitcoin & Market Dashboard | Marc Seger</title>
+  <meta name="description" content="Interactive Bitcoin & market dashboard built with Python, Streamlit, and financial data APIs." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <header>
-        <h1>📊 Bitcoin & Assets Dashboard</h1>
-    </header>
-    <main>
-        <section>
-            <h2>🔍 Project Overview</h2>
-            <p>This interactive dashboard tracks Bitcoin alongside key financial assets such as the S&P 500, Nasdaq, Gold, and macroeconomic indicators. Built using <strong>Python</strong> and <strong>Streamlit</strong>, it allows users to explore trends, compare indicators, and monitor market signals in real time.</p>
-        </section>
-        <section>
-            <h2>✨ Features</h2>
-            <ul>
-                <li>Real-time Bitcoin price and market KPIs</li>
-                <li>Dynamic line/candlestick charts with technical overlays</li>
-                <li>Signals & sentiment summaries (MACD, VWAP, RSI, etc.)</li>
-                <li>Spot ETF flow analysis (daily & cumulative)</li>
-                <li>Fear & Greed Index + Google Trends visualization</li>
-            </ul>
-        </section>
-        <section>
-            <h2>📸 Dashboard Preview</h2>
-            <p>A snapshot of the working dashboard built in Streamlit:</p>
-            <img src="images/btc_dashboard_mockup.png" alt="Bitcoin and financial markets dashboard preview" style="max-width:100%;height:auto;">
-        </section>
-        <section>
-            <h2>🔗 Links</h2>
-            <ul>
-                <li><a href="https://bitcoin-market-dashboard.streamlit.app/" target="_blank">🌐 Live Streamlit Dashboard</a></li>
-                <li><a href="https://github.com/Marc-Seger/bitcoin-market-dashboard" target="_blank">📁 GitHub Repository</a></li>
-            </ul>
-        </section>
-        <p><a href="index.html">← Back to Portfolio</a></p>
-    </main>
-    <footer>
-        <p>&copy; <span id="year"></span> Marc Seger</p>
-    </footer>
-    <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+  <header>
+    <h1>📊 Bitcoin & Assets Dashboard</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>🔍 Project Overview</h2>
+      <p>This interactive dashboard tracks Bitcoin alongside key financial assets such as the S&P 500, Nasdaq, Gold, and macroeconomic indicators. Built using <strong>Python</strong> and <strong>Streamlit</strong>, it allows users to explore trends, compare indicators, and monitor market signals in real time.</p>
+    </section>
+
+    <section>
+      <h2>✨ Features</h2>
+      <ul>
+        <li>Real-time Bitcoin price and market KPIs</li>
+        <li>Dynamic line/candlestick charts with technical overlays</li>
+        <li>Signals & sentiment summaries (MACD, VWAP, RSI, etc.)</li>
+        <li>Spot ETF flow analysis (daily & cumulative)</li>
+        <li>Fear & Greed Index + Google Trends visualization</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>📸 Dashboard Preview</h2>
+      <p>A snapshot of the working dashboard built in Streamlit:</p>
+      <img src="images/btc_dashboard_mockup.png" alt="Bitcoin and financial markets dashboard preview" />
+    </section>
+
+    <section>
+      <h2>🔗 Links</h2>
+      <ul>
+        <li><a href="https://bitcoin-market-dashboard.streamlit.app/" target="_blank">🌐 Live Streamlit Dashboard</a></li>
+        <li><a href="https://github.com/Marc-Seger/bitcoin-market-dashboard" target="_blank">📁 GitHub Repository</a></li>
+      </ul>
+    </section>
+
+    <p><a href="index.html">← Back to Portfolio</a></p>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Marc Seger</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    lucide.createIcons();
+  </script>
 </body>
 </html>
