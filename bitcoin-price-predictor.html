@@ -20,21 +20,41 @@
 
   <!-- Main Content -->
   <main class="container">
+
     <section class="project-section">
-      <h2>🔍 Overview</h2>
-      <p>
-        This application uses <strong>machine learning models</strong> (Random Forest and GRU) to forecast Bitcoin prices over different time horizons.
-        <br><br>
-        Short-term predictions are made using tree-based models like Random Forest, while long-term trends are captured using deep learning (GRU).
-        The models leverage a rich feature set including:
-      </p>
-      <ul class="feature-list">
-        <li>📈 Technical indicators (MACD, EMA, Bollinger Bands, etc.)</li>
-        <li>💰 On-chain data (active addresses, exchange flows)</li>
-        <li>🧠 Sentiment signals (Google Trends, Fear & Greed Index)</li>
-        <li>🌍 Macroeconomic data (S&P 500, Gold, DXY, CPI)</li>
-        <li>🔁 Lagged prices & rolling averages</li>
-      </ul>
+        <h2>🔍 Overview</h2>
+        <p>
+            This application uses <strong>machine learning models</strong> (Random Forest and GRU) to forecast Bitcoin prices across short- and long-term horizons.
+            Tree-based models handle near-term fluctuations, while GRUs capture long-term patterns.
+        </p>
+    </section>
+
+    <section class="project-section">
+        <h2>🧠 Learning & Tech Stack</h2>
+        <p>
+          This project helped me apply machine learning to financial time series, combining traditional and deep learning models in a production-ready pipeline.
+        </p>
+        <ul class="feature-list">
+          <li>💻 <strong>Python</strong> – data processing, modeling, and automation</li>
+          <li>📊 <strong>Scikit-learn & Keras</strong> – for training Random Forest & GRU models</li>
+          <li>📈 <strong>Feature Engineering</strong> – lagged prices, technical indicators (MACD, EMA, Bollinger Bands, etc.)</li>
+          <li>🌐 <strong>Multi-source Data</strong> – macroeconomic, on-chain, and sentiment features</li>
+          <li>🧪 <strong>Model Evaluation</strong> – test sets, rolling predictions, performance metrics</li>
+          <li>📤 <strong>Streamlit Deployment</strong> – interactive prediction interface</li>
+          <li>🗂️ <strong>GitHub & Versioning</strong> – code management and reproducibility</li>
+        </ul>
+    </section>
+      
+    <section class="project-section">
+        <h2>✨ Features</h2>
+        <ul class="feature-list">
+            <li>📆 Predict BTC prices for both short- and long-term horizons</li>
+            <li>🛠️ Toggle between GRU and Random Forest models</li>
+            <li>📈 Visual forecast charts with actual vs. predicted prices</li>
+            <li>📊 Feature importance breakdown (Random Forest)</li>
+            <li>🔁 Recursive prediction logic with simulated lag features</li>
+            <li>💬 Streamlit app for input, explanation, and download</li>
+        </ul>
     </section>
 
     <section class="project-section">
