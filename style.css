@@ -10,7 +10,7 @@
     line-height: 1.6;
   }
   .container {
-    max-width: 960px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1rem;
   }
@@ -70,7 +70,7 @@
   
   .card {
     background: white;
-    width: 320px; /* Adjusted to fit 3 cards within 1024px width */
+    width: 400px;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -83,10 +83,7 @@
   .card h3 {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
-    white-space: nowrap; /* Force title to stay on one line */
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  }  
 
   .icon {
     width: 20px;
