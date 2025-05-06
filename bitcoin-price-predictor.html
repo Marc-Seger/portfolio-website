@@ -4,22 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bitcoin Price Predictor | Marc Seger</title>
-  <meta name="description" content="Forecast Bitcoin prices using machine learning models (Random Forest & GRU) built by Marc Seger." />
   <link rel="stylesheet" href="style.css" />
-  <!-- Google Fonts: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-  <header>
-    <h1>📈 Bitcoin Price Prediction</h1>
-    <p><em>Work in Progress</em></p>
+  <header class="hero">
+    <div class="container">
+      <h1>Bitcoin Price Predictor</h1>
+      <p>Machine learning-based BTC forecasts.</p>
+    </div>
   </header>
 
-  <main>
+  <main class="container">
     <section>
-      <h2>🔍 Project Overview</h2>
-      <p>This project focuses on developing a machine learning-based Bitcoin price prediction tool. Using Random Forest and GRU
-::contentReference[oaicite:4]{index=4}
- 
+      <h2>Overview</h2>
+      <p>This app uses Random Forest and GRU models to predict Bitcoin prices over different horizons.</p>
+    </section>
+    <section>
+      <h2>Links</h2>
+      <ul>
+        <li><a href="https://bitcoin-predictor.streamlit.app/" target="_blank">View Live Project</a></li>
+      </ul>
+    </section>
+    <p><a href="index.html">← Back to Portfolio</a></p>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Marc Seger</p>
+  </footer>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
