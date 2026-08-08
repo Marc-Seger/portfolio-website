@@ -18,6 +18,62 @@
 </head>
 <body>
 
+<div id="loader-overlay">
+  <div class="curtain-top"></div>
+  <div class="curtain-bottom"></div>
+  <div class="loading-layer">
+    <div class="initials">MS</div>
+    <div class="load-row">
+      <div class="bar-track"><div class="bar-fill"></div></div>
+      <div class="counter" id="loader-counter">0</div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    var overlay = document.getElementById('loader-overlay');
+    if (!overlay) return;
+
+    // Skip entirely for users who've asked for reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      overlay.remove();
+      return;
+    }
+
+    // Only play once per browser session (not on every page navigation —
+    // sessionStorage is shared across all pages on this origin)
+    if (sessionStorage.getItem('loaderPlayed')) {
+      overlay.remove();
+      return;
+    }
+
+    var counter = document.getElementById('loader-counter');
+    var fill = overlay.querySelector('.bar-fill');
+
+    requestAnimationFrame(function () {
+      fill.style.width = '100%';
+    });
+
+    var start = null;
+    var duration = 1400;
+    function tick(ts) {
+      if (!start) start = ts;
+      var pct = Math.min(100, Math.round(((ts - start) / duration) * 100));
+      counter.textContent = pct;
+      if (pct < 100) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    setTimeout(function () {
+      overlay.classList.add('reveal');
+      sessionStorage.setItem('loaderPlayed', '1');
+      setTimeout(function () {
+        overlay.remove();
+      }, 800); // matches curtain transition duration
+    }, 1600);
+  })();
+</script>
+
 <div class="bg" id="bg">
 
   <div class="nav">

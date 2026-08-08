@@ -18,6 +18,13 @@
   --spotlight-radius: 600px;
   --spotlight-color: oklch(0.68 0.16 45 / 0.1);
   --spotlight-stop: 60%;
+
+  /* Loader curtain — fixed brand colors, deliberately not overridden under
+     [data-theme="dark"] below. A one-time splash moment reads better as a
+     consistent dark-ink curtain regardless of which theme it's about to
+     reveal, rather than flipping to a light curtain in dark mode. */
+  --loader-bg: oklch(0.18 0.008 85);
+  --loader-fg: oklch(0.97 0.006 85);
 }
 
 /* Dark theme — toggled via data-theme on <html>, set before paint by the
@@ -201,4 +208,73 @@ footer .links{ display:flex; gap:20px; align-items:center; }
 @media (max-width:680px){
   .article h1{ font-size:36px; }
   .article{ padding: 40px 24px 100px; }
+}
+
+/* ---- Loader — one-time curtain-reveal intro, plays once per session ---- */
+#loader-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+#loader-overlay .curtain-top,
+#loader-overlay .curtain-bottom{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: var(--loader-bg);
+  transition: transform 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+}
+#loader-overlay .curtain-top{ top: 0; }
+#loader-overlay .curtain-bottom{ top: 50%; }
+#loader-overlay.reveal .curtain-top{ transform: translateY(-100%); }
+#loader-overlay.reveal .curtain-bottom{ transform: translateY(100%); }
+
+#loader-overlay .loading-layer{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+#loader-overlay.reveal .loading-layer{ opacity: 0; }
+
+#loader-overlay .initials{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 300;
+  font-size: 32px;
+  letter-spacing: 0.14em;
+  color: var(--loader-fg);
+}
+#loader-overlay .load-row{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+#loader-overlay .bar-track{
+  width: 180px;
+  height: 2px;
+  background: color-mix(in oklch, var(--loader-fg) 20%, transparent);
+  position: relative;
+}
+#loader-overlay .bar-fill{
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  width: 0%;
+  background: var(--loader-fg);
+  transition: width 1.4s ease;
+}
+#loader-overlay .counter{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: color-mix(in oklch, var(--loader-fg) 65%, transparent);
+  font-variant-numeric: tabular-nums;
+  min-width: 24px;
 }
