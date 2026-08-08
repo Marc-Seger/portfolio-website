@@ -6,80 +6,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
-<div class="shell">
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-      <a class="brand" href="index.html">Marc Seger</a>
-      <div class="navlinks">
-        <a href="#work">Work</a>
-      </div>
-      <div class="side-meta">
-        Product Manager<br>
-        Data &amp; AI
-      </div>
+<div class="bg" id="bg">
+
+  <div class="nav">
+    <a class="nav-brand" href="index.html">Marc Seger</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="https://github.com/Marc-Seger" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/marc-seger-62942368" target="_blank" rel="noopener">LinkedIn</a>
     </div>
-  </aside>
+  </div>
 
-  <main class="main">
-    <header class="hero">
-      <p class="eyebrow">Product Manager</p>
-      <h1>Product Manager,<br>data &amp; AI.</h1>
-      <p class="bio">Day to day I manage product. Outside of that I build data and ML projects — you'll find some below.</p>
-      <div class="herolinks">
-        <a href="https://github.com/Marc-Seger" target="_blank" rel="noopener">GitHub ↗</a>
-        <span class="dot">·</span>
-        <a href="https://linkedin.com/in/marc-seger-62942368" target="_blank" rel="noopener">LinkedIn ↗</a>
-      </div>
-    </header>
+  <header class="hero">
+    <p class="eyebrow">Product Manager</p>
+    <h1>Product Manager,<br>data &amp; AI.</h1>
+    <p class="bio">Day to day I manage product. Outside of that I build data and ML projects — you'll find some below.</p>
+    <div class="btn-row">
+      <a class="btn-primary" href="https://github.com/Marc-Seger" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn-secondary" href="https://linkedin.com/in/marc-seger-62942368" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </header>
 
-    <section class="work" id="work">
-      <p class="section-label">Selected work</p>
+  <section class="work" id="work">
+    <div class="work-header">
+      <h2>Selected work</h2>
+      <div class="work-count">01—03</div>
+    </div>
+    <div class="grid">
 
-      <div class="project">
-        <div class="idx">01</div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num">01</div>
+        </div>
         <div>
-          <a class="p-title-link" href="bitcoin-predictor.html">
-            <p class="p-title">Bitcoin Price Predictor</p>
-          </a>
-          <p class="p-desc">A fully autonomous ML app that predicts BTC price moves, retrains, redeploys, and grades itself.</p>
+          <a class="card-title-link" href="bitcoin-predictor.html"><h3>Bitcoin Price Predictor</h3></a>
+          <p>A fully autonomous ML app that predicts BTC price moves, retrains, redeploys, and grades itself.</p>
         </div>
-        <div class="p-meta">
-          <a href="https://bitcoin-price-predictor-v2.streamlit.app" target="_blank" rel="noopener">Live app ↗</a>
-          <a href="https://github.com/Marc-Seger/bitcoin-price-predictor-v2" target="_blank" rel="noopener">Code ↗</a>
+        <div class="card-links">
+          <a class="link-accent" href="https://bitcoin-price-predictor-v2.streamlit.app" target="_blank" rel="noopener">Live app →</a>
+          <a class="link-muted" href="https://github.com/Marc-Seger/bitcoin-price-predictor-v2" target="_blank" rel="noopener">Code →</a>
         </div>
       </div>
 
-      <div class="project">
-        <div class="idx">02</div>
-        <div>
-          <a class="p-title-link" href="bb-channel-rider.html">
-            <p class="p-title">Systematic BTC strategies</p>
-          </a>
-          <p class="p-desc">A framework for building and stress-testing rules-based BTC trading strategies before any of them touch real money.</p>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num">02</div>
         </div>
-        <div class="p-meta">
-          <a href="#">Live backtest ↗</a>
-          <a href="#">Code ↗</a>
+        <div>
+          <a class="card-title-link" href="bb-channel-rider.html"><h3>Systematic BTC Strategies</h3></a>
+          <p>A framework for building and stress-testing rules-based BTC trading strategies before any of them touch real money.</p>
+        </div>
+        <div class="card-links">
+          <a class="link-accent" href="#">Live backtest →</a>
+          <a class="link-muted" href="#">Code →</a>
         </div>
       </div>
 
-      <div class="project">
-        <div class="idx">03</div>
-        <div>
-          <p class="p-title">WoW Classic log analyzer <span class="wip">[wip]</span></p>
-          <p class="p-desc">Turns a raw World of Warcraft raid log URL into plain-English, raid-wide analysis and per-player takeaways.</p>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num">03</div>
+          <div class="card-tag">[wip]</div>
         </div>
-        <div class="p-meta">
-          <a href="#">Code ↗</a>
+        <div>
+          <h3>WoW Classic Log Analyzer</h3>
+          <p>Turns a raw World of Warcraft raid log URL into plain-English, raid-wide analysis and per-player takeaways.</p>
+        </div>
+        <div class="card-links">
+          <a class="link-muted" href="#">Code →</a>
         </div>
       </div>
-    </section>
-  </main>
+
+    </div>
+  </section>
+
 </div>
 
 <footer>
@@ -90,6 +94,15 @@
     </div>
   </div>
 </footer>
+
+<script>
+  const bg = document.getElementById('bg');
+  bg.addEventListener('mousemove', (e) => {
+    const rect = bg.getBoundingClientRect();
+    bg.style.setProperty('--x', (e.clientX - rect.left) + 'px');
+    bg.style.setProperty('--y', (e.clientY - rect.top) + 'px');
+  });
+</script>
 
 </body>
 </html>
