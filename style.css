@@ -154,7 +154,7 @@ section.work, section.about, section.contact{ padding: 40px 0 80px; }
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   color: var(--text-muted);
-  display:flex; flex-direction:column; gap: 8px;
+  display:flex; flex-direction:column; align-items:flex-end; gap: 8px;
   text-align: right;
 }
 .p-meta .stat{ color: var(--teal); }
@@ -175,7 +175,7 @@ footer{
   border-top: 1px solid var(--line);
   padding: 32px 0 60px;
 }
-footer .shell{ display:flex; justify-content:space-between; align-items:center; }
+footer .shell{ display:flex; justify-content:flex-end; align-items:center; }
 footer, footer a{
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
