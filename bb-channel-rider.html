@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Systematic BTC Strategies, Marc Seger</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+
+<div class="article">
+    <a class="detail-back" href="index.html">← Back to home</a>
+    <h1>Systematic BTC Strategies</h1>
+    <p class="eyebrow" style="margin-top:-8px;">Python, Backtesting, MEXC Futures, Flask</p>
+
+    <h2 class="section-title" style="margin-top:48px;">The idea</h2>
+    <p class="about-text">This started as a much bigger, messier project: a bot that followed trade signals from a Telegram channel. That version never goes public, not the code, not even in its git history, since it's tied to a real trading account. What's here is a clean extraction of the part that actually stands on its own: five rules-based BTC strategies sharing one indicator library and one backtest engine, no external signals, no discretionary input, just OHLCV candles in and trades out.</p>
+    <p class="about-text">Only one of the five, BB Channel Rider, has been through full validation and runs live in paper mode. The other four exist to build and test ideas, not to be trusted as-is, and I'm upfront about that distinction rather than presenting all five as equally proven.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">Built with, not by</h2>
+    <p class="about-text">Same as the predictor: I built this with Claude Code as the engineering partner, I made the calls, it wrote the code.</p>
+    <p class="about-text">One decision was how far to push validation before trusting a backtest. A single backtest result can just be a lucky parameter set, so after a line-by-line audit of all 290 trades against the frozen spec passed (Gate 1), I ran a 16,200-combination grid search across the parameter space (Gate 2) specifically to check whether the frozen parameters were actually strong or just fortunate. They ranked 14th of 16,200 by net P&L, so it's a real result, not a cherry-picked one.</p>
+    <p class="about-text">The other was where to draw the line on what gets published. Rather than trying to redact the sensitive parts of the original Telegram bot out of its existing history, I started this as a brand-new repo and hand-picked only the self-contained, rules-based strategy code into it, so there's nothing to accidentally leak, not even in a deleted commit.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">How it works</h2>
+    <p class="about-text">BB Channel Rider is a mean-reversion strategy on BTC/USDT perpetual futures, 15-minute candles, 10x leverage, 25% of capital per trade. It enters when price touches a Bollinger Band (20-period, 3.0 standard deviations) in the direction confirmed by an EMA-150 trend filter, then manages the position with a dual stop-loss (a stop-limit plus a market backstop in case price gaps through it), a stop that snaps to breakeven and then trails in the profitable direction as price moves, and a take-profit at the opposite band. When take-profit hits and price is still sitting at the band, the bot immediately flips into the opposite position instead of sitting idle. The full spec was frozen on 2026-05-10 and hasn't changed since.</p>
+    <p class="about-text">It runs live in paper mode on an Oracle Cloud VPS: a Flask dashboard for backtesting any of the five strategies and watching live bot status, and the bot itself as a systemd service that restarts automatically. The API key is read-only and locked to the server's IP, so it's safe by construction even before accounting for the fact that paper mode never sends a real order to the exchange, it only reads live prices.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">Results</h2>
+    <p class="about-text">290 trades, 63.8% win rate, +$10,348 net on a $1,000 starting paper balance over 11 months, with 100% compounding. That result passed both validation gates: the line-by-line trade audit against the spec, and the 16,200-combination grid search where 67.5% of all tested combinations came out profitable, meaning the strategy's edge doesn't depend on one fragile choice of parameters.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">Known limitations</h2>
+    <p class="about-text">Paper mode uses a real entry and exit price, an actual WebSocket tick at the moment the signal fires, not an idealized backtest price, and it models trading fees correctly. What it doesn't model is slippage or order-book depth: it assumes a market order fills instantly at that exact price with infinite liquidity. Live money performance would likely run somewhat below these paper numbers, especially in fast-moving conditions. I'd rather disclose that gap than let the paper results imply more than they've actually proven.</p>
+    <p class="about-text">The other four strategies in the repo, MA Cross, Price vs MA, Bollinger Bounce, and RSI Reversal, share the same engine and dashboard but haven't been through this validation process. They're there to demonstrate the framework, not as additional claims of a working edge.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">Explore it</h2>
+    <p class="about-text">
+      <a href="#" style="color:var(--text);">Live backtest ↗</a>
+      &nbsp;·&nbsp;
+      <a href="#" style="color:var(--text);">Source code ↗</a>
+    </p>
+</div>
+
+</body>
+</html>
