@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=12">
+<link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
@@ -97,17 +97,31 @@
     <p class="eyebrow" style="margin-top:-8px;">XGBoost, Python, Streamlit, GitHub Actions</p>
 
     <h2 class="section-title" style="margin-top:48px;">The idea</h2>
-    <p class="about-text">The first version of this was a Le Wagon bootcamp project: a Streamlit dashboard and a first pass at price prediction, built in notebooks over a few weeks. It worked well enough to learn from, but it wasn't something I'd want a hiring manager to actually open.</p>
-    <p class="about-text">I rebuilt it from scratch as v2: real Python modules instead of notebooks, a daily pipeline that fetches data and retrains itself via GitHub Actions, and an evaluation method honest enough that I'd trust the numbers myself.</p>
+    <p class="about-text">The first version was a Le Wagon bootcamp project: data collection, feature engineering, and two models trained in notebooks. It produced predictions. It was also incomplete, clunky, and impossible to keep running without manual work.</p>
+    <p class="about-text">v2 is a rebuild from scratch: real Python modules instead of notebooks, a daily pipeline that fetches data and retrains itself via GitHub Actions, and an evaluation method I thought was honest enough to trust. That last part turned out to be wrong, and correcting it is most of what this page is about.</p>
 
     <h2 class="section-title" style="margin-top:48px;">How it works</h2>
-    <p class="about-text">Every day at 22:00 UTC, right after the NYSE close, a GitHub Actions workflow pulls fresh data across BTC, cross-asset prices, macro indicators, on-chain metrics, and sentiment, validates it, retrains an XGBoost model on the full history, and generates a new 7-day return prediction, no manual step anywhere in that chain.</p>
-    <p class="about-text">Evaluation uses non-overlapping 7-day walk-forward windows, so each prediction is scored independently rather than flattered by a single bull-market backtest.</p>
-    <p class="about-text">A five-page Streamlit app sits on top: market dashboard, live forecast, strategy backtesting lab, model performance tracking, and documentation, plus a weekly job that flags drift automatically. An adversarial audit of the pipeline caught 13 real bugs, including two multi-day silent data gaps, both fixed with checks against recurrence.</p>
+    <p class="about-text">Every day at 22:00 UTC, after the US market close, a GitHub Actions workflow runs the whole chain end to end.</p>
+    <p class="about-text">It pulls fresh data from free public sources: BTC and cross-asset prices (S&amp;P 500, Nasdaq, Gold, Dollar Index) from Yahoo Finance, macro series from FRED, on-chain metrics from CoinMetrics, and the Fear and Greed index. A validation script then runs before anything downstream is allowed to touch the data. It checks that today's data is actually there, that no price has silently frozen (a dead source plus forward-fill looks exactly like a flat market), that values sit in sane ranges, that all 52 model features are present and non-null, and that there are no gaps or duplicate dates. If a check fails, the run stops, opens a GitHub issue, and yesterday's model stays in place.</p>
+    <p class="about-text">If it passes, the model retrains on the full history, predicts the next 7-day return, logs it, and commits the result. No manual step anywhere, which also means no prediction on days its own validation blocks the run.</p>
+    <p class="about-text">A four-page Streamlit app sits on top: market dashboard, live forecast, model performance, and documentation. A separate weekly job checks data freshness, prediction cadence, and how long since the model was last retuned, and reports live accuracy alongside them.</p>
 
-    <h2 class="section-title" style="margin-top:48px;">Results</h2>
-    <p class="about-text">Across 2,467 non-overlapping walk-forward predictions, the tuned model calls the 7-day direction correctly 76.7% of the time, against a 52.3% naive baseline. When the model is most confident, that accuracy climbs to 90.6%. Tree-based models (XGBoost) outperformed LSTM/GRU alternatives tested on this dataset size (~50% accuracy).</p>
-    <p class="about-text">These numbers are recalculated from the walk-forward results file every time the app loads, not hard-coded.</p>
+    <h2 class="section-title" style="margin-top:48px;">What the numbers actually say</h2>
+    <p class="about-text">I originally published 76.7% direction accuracy. It was wrong, and finding out why was worth more than the number.</p>
+    <p class="about-text">Two mistakes, both in the evaluation rather than the model.</p>
+    <p class="about-text">The first was counting. I described 2,467 predictions as non-overlapping when they were daily, so consecutive windows shared six of their seven days and one good multi-week call was counted up to seven times. Re-running the evaluation on genuinely independent windows gives 73.3%, across 367 windows.</p>
+    <p class="about-text">The second was worse. The 7-day target is built from the closing price seven days ahead. The walk-forward loop trained on every row up to the prediction date, which meant the last six training rows carried targets computed from prices the model was about to be tested on. It was being trained on the answer. The same re-run with those six rows dropped gives 48.5%, and the correlation between prediction and outcome falls from 0.77 to &minus;0.03. Not a weaker edge. No edge.</p>
+    <p class="about-text">The live log agrees, which is how I know the correction is right. Since late March 2026 the pipeline has logged <span data-live="logged">106</span> predictions, each recorded before the outcome was known. Across the <span data-live="resolved">100</span> that have resolved, it has been right <span data-live="accuracy">49.0%</span> of the time. Two independent measurements, one offline across seven years and one accumulated in the open, landing within a point of each other, against a 52.6% always-up baseline.</p>
+    <p class="about-text">The same leak explains two other results I had believed. The model looked far more accurate when predicting a large move, 90% against 44% once the leak was removed. And it made the model comparison unfair: LSTM and GRU networks tested on the same target both scored a negative R&sup2;, worse than predicting the average return, at 50% and 54% direction accuracy. But the deep-learning evaluation correctly dropped those seven training rows and the XGBoost one did not. The trees won a race the networks were not allowed to run.</p>
+    <p class="about-text">None of this was caught by the monitoring built for exactly this purpose. A weekly job was supposed to compare live accuracy against the naive baseline and open an issue when it slipped. It had been silently failing since March: a one-off manual repair left one date in a different format from the rest, the read threw an error, a broad exception handler swallowed it, and the job reported "all clear" every week with a green checkmark. A check that could not run was being reported as the thing it checked passing. It now alerts when it cannot run, and treats a sudden jump in accuracy as a bug signal rather than good news.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">What I would do differently</h2>
+    <p class="about-text">Three fixes, in the order they matter.</p>
+    <p class="about-text">Purge the last seven training rows at every walk-forward step. That is the fix for the leak above, and the one thing to do before trusting any future number.</p>
+    <p class="about-text">Select features inside the walk-forward instead of before it. The 52 features were picked from 269 by importance measured across the full eight years, then scored on those same eight years.</p>
+    <p class="about-text">Tune against a genuinely held-out period. The hyperparameters came from 100 Optuna trials, each scored on the entire history, keeping whichever scored highest. That is a maximum over 100 attempts on the data being reported, not an out-of-sample result.</p>
+    <p class="about-text">None of this is done yet, and none of it is expected to rescue the model. Seven-day Bitcoin direction from free daily data may simply not be predictable, and a null result is the honest outcome rather than a failure. What it would buy is a number worth standing behind.</p>
+    <p class="about-text">The pipeline keeps running in the meantime. Every day it adds one more independently logged prediction to a live test of exactly that question.</p>
 
     <h2 class="section-title" style="margin-top:48px;">Explore it</h2>
     <p class="about-text">
@@ -134,6 +148,55 @@
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
   });
+
+  // Live prediction stats, read straight from the trade log the daily pipeline
+  // commits. The [data-live] spans ship with the last known values hard-coded, so
+  // the sentence always reads correctly; this only overwrites them on a clean
+  // fetch + parse. Any failure (offline, rate limit, schema change) leaves the
+  // static fallback untouched rather than rendering a dash or a zero.
+  //
+  // Deliberately not applied to the backtest figures: that evaluation is a static
+  // artifact that only changes when it is re-run, and dressing it up as live would
+  // be the same kind of overclaiming this page exists to correct.
+  (function () {
+    const TRADE_LOG = 'https://raw.githubusercontent.com/Marc-Seger/' +
+                      'bitcoin-price-predictor-v2/main/app/data/trade_log.csv';
+    const MIN_PLAUSIBLE_RESOLVED = 50;  // sanity floor: never regress on a partial read
+
+    fetch(TRADE_LOG, { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then((csv) => {
+        const lines = csv.trim().split('\n');
+        const header = lines[0].split(',').map((h) => h.trim());
+        const correctIdx = header.indexOf('correct');
+        if (correctIdx === -1) throw new Error('no "correct" column');
+
+        let logged = 0, resolved = 0, right = 0;
+        for (let i = 1; i < lines.length; i++) {
+          if (!lines[i].trim()) continue;
+          logged++;
+          const value = (lines[i].split(',')[correctIdx] || '').trim();
+          if (value === '') continue;           // still pending, outcome unknown
+          const n = Number(value);
+          if (!Number.isFinite(n)) continue;
+          resolved++;
+          if (n === 1) right++;
+        }
+
+        if (resolved < MIN_PLAUSIBLE_RESOLVED) throw new Error('implausible row count');
+
+        const values = {
+          logged: String(logged),
+          resolved: String(resolved),
+          accuracy: (100 * right / resolved).toFixed(1) + '%',
+        };
+        document.querySelectorAll('[data-live]').forEach((el) => {
+          const v = values[el.dataset.live];
+          if (v) el.textContent = v;
+        });
+      })
+      .catch(() => { /* keep the hard-coded fallback */ });
+  })();
 </script>
 
 </body>
