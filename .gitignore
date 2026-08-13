@@ -26,3 +26,13 @@ build/
 # OS/Editor backup files
 *.swp
 *~
+
+# Secret-bearing variants — .env alone does not cover these
+.env.*
+!.env.example
+*.local.yaml
+*.local.json
+secrets.json
+credentials.json
+*.pem
+*.key
