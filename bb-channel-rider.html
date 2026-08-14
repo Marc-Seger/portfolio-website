@@ -13,8 +13,13 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2314120f'/><text x='50' y='54' font-family='Helvetica,Arial,sans-serif' font-size='42' font-weight='700' letter-spacing='1' fill='%23f4efe6' text-anchor='middle' dominant-baseline='central'>MS</text></svg>">
 <script>
   (function(){
+    // Default to light rather than following prefers-color-scheme. The warm-paper
+    // look is the site's identity and what the LinkedIn banner matches, and most
+    // first-time visitors never touch a theme toggle — so following the OS would
+    // show roughly half of them a look that wasn't chosen for them. A visitor who
+    // does switch has their choice remembered from then on.
     var saved = localStorage.getItem('theme');
-    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var theme = saved || 'light';
     document.documentElement.setAttribute('data-theme', theme);
   })();
 </script>
