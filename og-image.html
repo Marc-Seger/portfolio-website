@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>og image source</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* 1200x630 — the standard Open Graph card size used by LinkedIn, Slack,
+     iMessage and most other link unfurlers. The page IS the card, so a
+     full-page screenshot needs no cropping. */
+  html, body { margin:0; padding:0; width:1200px; height:630px; overflow:hidden; }
+
+  .card{
+    position:relative; width:1200px; height:630px;
+    background:#f8f5f0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(41,36,32,0.05) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(-45deg, rgba(41,36,32,0.05) 0 1px, transparent 1px 64px);
+    font-family:'Space Grotesk', sans-serif;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:0 86px; box-sizing:border-box; overflow:hidden;
+  }
+  .motif{ position:absolute; right:0; bottom:0; width:1200px; height:400px; opacity:0.55; }
+  .content{ position:relative; z-index:1; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:19px; letter-spacing:0.16em;
+    text-transform:uppercase; color:#c25f16; margin:0 0 22px;
+  }
+  h1{
+    font-size:74px; line-height:1.04; letter-spacing:-0.025em; font-weight:700;
+    color:#292420; margin:0 0 26px; max-width:960px;
+  }
+  h1 .accent{ color:#c25f16; }
+  .sub{
+    font-size:25px; line-height:1.45; color:#6b645c; margin:0 0 34px; max-width:820px;
+  }
+  .rule{ width:72px; height:3px; background:#c25f16; margin-bottom:26px; }
+  .url{ font-family:'IBM Plex Mono', monospace; font-size:21px; color:#292420; margin:0; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <svg class="motif" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="l" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#c25f16" stop-opacity="0"/>
+        <stop offset="45%"  stop-color="#c25f16" stop-opacity="0.16"/>
+        <stop offset="100%" stop-color="#c25f16" stop-opacity="0.34"/>
+      </linearGradient>
+      <linearGradient id="f" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#c25f16" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#c25f16" stop-opacity="0.10"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,330 L75,318 L150,326 L225,292 L300,302 L375,262 L450,278 L525,236
+             L600,252 L675,208 L750,224 L825,186 L900,200 L975,158 L1050,172 L1125,132 L1200,146
+             L1200,400 L0,400 Z" fill="url(#f)"/>
+    <path d="M0,330 L75,318 L150,326 L225,292 L300,302 L375,262 L450,278 L525,236
+             L600,252 L675,208 L750,224 L825,186 L900,200 L975,158 L1050,172 L1125,132 L1200,146"
+          fill="none" stroke="url(#l)" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+
+  <div class="content">
+    <p class="eyebrow">Marc Seger · Product Manager</p>
+    <div class="rule"></div>
+    <h1>I build the data products<br>I <span class="accent">manage</span>.</h1>
+    <p class="sub">Bitcoin price prediction, systematic trading strategies, and an honest account of what each one is actually worth.</p>
+    <p class="url">marcseger.dev</p>
+  </div>
+
+</div>
+</body>
+</html>
