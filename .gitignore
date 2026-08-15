@@ -40,7 +40,5 @@ credentials.json
 # Local working notes — never committed. These accumulate personal context
 # and operational detail (server access, deployment specifics) that does not
 # belong in a repository.
-CLAUDE.md
-CLAUDE_CODE.md
-**/CLAUDE.md
-**/CLAUDE_CODE.md
+/*.md
+!README.md
