@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <title>Systematic BTC Strategies, Marc Seger</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Five rules-based BTC strategies on one backtest engine, one of them running live in paper mode on a VPS, validated against the fees it actually pays.">
+<meta name="description" content="Five rules-based BTC strategies on one backtest engine, and the audit that found the backtest was still flattering itself even after I thought I'd already fixed it.">
 <meta property="og:title" content="Systematic BTC Strategies, Marc Seger">
-<meta property="og:description" content="Five rules-based BTC strategies on one backtest engine, one of them running live in paper mode on a VPS, validated against the fees it actually pays.">
+<meta property="og:description" content="Five rules-based BTC strategies on one backtest engine, and the audit that found the backtest was still flattering itself even after I thought I'd already fixed it.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://marcseger.dev/bb-channel-rider.html">
 <meta property="og:image" content="https://marcseger.dev/images/og-image.png">
@@ -122,16 +122,20 @@
     <p class="about-text">It runs as a systemd service on an Oracle Cloud VPS with automatic restart, alongside a Flask dashboard for backtesting any of the five strategies and watching live status. The API key is read-only and locked to the server's IP, and paper mode never sends an order to the exchange, it only reads live prices.</p>
 
     <h2 class="section-title" style="margin-top:48px;">Live record</h2>
-    <p class="about-text">Running since August 2026, a handful of closed trades so far on a $1,000 paper balance, currently in profit. Far too few to conclude anything, which is exactly why it stays running. This is the number I'd want judged in a year, not the backtest. The live figures are on the dashboard, linked below.</p>
+    <p class="about-text">Running since August 2026 on a $1,000 paper balance. As of the last check it has closed <span data-live="trades">27</span> trades, <span data-live="pnl">-$18.94</span> net, currently <span data-live="phase">flat</span>. Far too few trades to conclude anything on its own, which is exactly why it stays running, but it's a useful cross-check against the out-of-sample backtest below: both land close to breakeven over roughly the same period. This is the number I'd want judged in a year, not the backtest. Full detail is on the dashboard, linked below.</p>
 
     <h2 class="section-title" style="margin-top:48px;">What the backtest says</h2>
-    <p class="about-text">The backtest is the tool that configured the bot, not the product. Over the year of real 15-minute data following the spec freeze, charging the fees the bot actually pays: 311 trades, 60.5% win rate, +$730.45 on a $1,000 start, 20.1% maximum drawdown.</p>
-    <p class="about-text">Fees dominate. The same year with fees switched off returns +$3,078, so roughly three quarters of the gross edge goes to the exchange. At 10x leverage a round trip costs about 1.2% of margin, which means a take-profit on a small move can close at a net loss even though price moved the right way. One did, on 9 August, and finding it is what prompted re-deriving all of these numbers.</p>
-    <p class="about-text">Two validation gates. A 16,200-combination parameter grid search found 67.5% of combinations profitable, which says the strategy family isn't balanced on a knife edge. But the frozen parameter set ranks 14th of those 16,200 on the same window it was chosen from, so that ranking is a selection, not independent evidence, and I'd be fooling myself to present it as confirmation. The honest test is the period after the freeze, which the parameters never saw: 66 trades, 65.2% win rate, +$359.73, 10.1% maximum drawdown. It held up.</p>
+    <p class="about-text">I originally published +$730.45 on a $1,000 start, a 73% return. It was wrong, twice.</p>
+    <p class="about-text">The first correction, in August, fixed an audit script that had drifted from the deployed bot on five counts, every one flattering. That produced 311 trades, 60.5% win rate, +$730.45, 20.1% maximum drawdown, and I published it as the honest number. It stayed wrong.</p>
+    <p class="about-text">The second mistake was in the simulation itself, not the audit script around it. It tested each candle's wick against a Bollinger Band computed from that same candle's own close, a level not knowable at the moment it would have to act on it. The live bot only ever uses the last <em>closed</em> candle's band, because that's the only level it can actually rest an order on. A separate bug froze the stop-loss snap threshold at trade entry instead of recalculating it every candle, contradicting the strategy's own frozen spec and the live bot's real behavior. Both bugs point the same way: toward a friendlier fill than the live bot could ever get.</p>
+    <p class="about-text">Corrected, the same year of data gives 437 trades, 53.8% win rate, <strong>-$683.90</strong> on the same $1,000 start, a 68% loss, 72.8% maximum drawdown.</p>
+    <p class="about-text">That full-period number isn't the one to trust either, and not because it's bad news this time, because it includes the exact window the parameters were selected from, which flatters any evaluation run over it. The honest test is the period after the 2026-05-10 spec freeze, which the parameter search never saw: 116 trades, 57.8% win rate, <strong>+$5.62</strong>, 18.1% maximum drawdown. Essentially breakeven.</p>
+    <p class="about-text">There's a real gross signal underneath, just not enough of one. The same out-of-sample window with fees switched off returns +$396 instead of +$6. Even the full period is barely positive gross, +$70 against the -$684 net result above. At 10x leverage a round trip costs roughly 1.2% of margin, enough to erase a thin edge entirely.</p>
+    <p class="about-text">The 16,200-combination grid search that selected these parameters (67.5% of combinations profitable, this configuration ranking 14th) was run under the old, over-optimistic simulation and hasn't been re-checked under the corrected one, so I'm not citing it as evidence here until it has been.</p>
 
     <h2 class="section-title" style="margin-top:48px;">Known limitations</h2>
     <p class="about-text">Paper mode uses real prices and models fees, but assumes zero slippage and instant fills, so live trading would run somewhat below these numbers. The backtest can't distinguish a stop-limit fill from the market backstop, so stop-loss exits are costed at the cheaper maker rate. The other four strategies share the same engine but haven't been through this validation.</p>
-    <p class="about-text">These figures replace an earlier set (290 trades, 63.8%, +$10,348) that I published and later found to be wrong. The audit script had drifted from the deployed strategy on five counts, each flattering, and was measuring a configuration that never ran. It now imports the live strategy module directly, so the two cannot diverge again.</p>
+    <p class="about-text">These figures replace two earlier sets. The original, 290 trades, 63.8%, +$10,348, came from an audit script that had drifted from the deployed strategy on five counts, each flattering, and was measuring a configuration that never ran. The one that replaced it, 311 trades, 60.5%, +$730.45, fixed that but carried its own, deeper bug in the simulation logic itself. Both are documented in full on the repo, including the fix that makes the audit import the live strategy module directly so it can't drift from the deployed bot again.</p>
 
     <h2 class="section-title" style="margin-top:48px;">Explore it</h2>
     <p class="about-text">
@@ -158,6 +162,47 @@
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
   });
+
+  // Live paper-bot stats, read from the dashboard's own public endpoint (CORS
+  // scoped to this origin). The [data-live] spans ship with the last known
+  // values hard-coded, so the sentence always reads correctly; this only
+  // overwrites them on a clean fetch + parse. Any failure (offline, rate
+  // limit, schema change) leaves the static fallback untouched rather than
+  // rendering a dash or a zero.
+  //
+  // Deliberately not applied to the backtest figures above: that evaluation
+  // is a static artifact that only changes when it is re-run, and dressing
+  // it up as live would be the same kind of overclaiming this page exists
+  // to correct.
+  (function () {
+    const STATUS_URL = 'https://bot.marcseger.dev/api/bb_bot_status?symbol=BTC';
+    const MIN_PLAUSIBLE_TRADES = 10;  // sanity floor: never regress on a partial read
+
+    fetch(STATUS_URL, { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then((data) => {
+        const stats = data.stats || {};
+        const trades = stats.total_trades;
+        const pnl = stats.total_pnl;
+        const phase = (data.state || {}).phase;
+
+        if (!Number.isFinite(trades) || trades < MIN_PLAUSIBLE_TRADES) {
+          throw new Error('implausible trade count');
+        }
+        if (!Number.isFinite(pnl)) throw new Error('missing pnl');
+
+        const values = {
+          trades: String(trades),
+          pnl: (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(2),
+          phase: phase === 'idle' ? 'flat' : 'holding a position',
+        };
+        document.querySelectorAll('[data-live]').forEach((el) => {
+          const v = values[el.dataset.live];
+          if (v) el.textContent = v;
+        });
+      })
+      .catch(() => { /* keep the hard-coded fallback */ });
+  })();
 </script>
 
 </body>
