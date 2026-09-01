@@ -210,6 +210,13 @@ h1{
 h2.section-title{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:24px; letter-spacing:-0.01em; margin:0 0 16px; }
 .about-text{ color: var(--text-muted); font-size:17px; line-height:1.7; max-width:70ch; margin:0 0 16px; }
 
+.data-table-wrap{ overflow-x:auto; max-width:70ch; margin:0 0 24px; }
+.data-table{ border-collapse:collapse; width:100%; font-family:'IBM Plex Mono', monospace; font-size:14px; }
+.data-table th, .data-table td{ text-align:left; padding:10px 16px 10px 0; border-bottom:1px solid var(--accent-tint); white-space:nowrap; }
+.data-table th{ color:var(--text-muted-2); font-weight:500; letter-spacing:0.02em; text-transform:uppercase; font-size:12px; }
+.data-table td{ color:var(--text); }
+.data-table tr:last-child th, .data-table tr:last-child td{ border-bottom:none; }
+
 .detail-back{
   font-family:'IBM Plex Mono', monospace;
   font-size:13px;

@@ -113,32 +113,54 @@
     <h1>Bitcoin Price Predictor</h1>
     <p class="eyebrow" style="margin-top:-8px;">XGBoost, Python, Streamlit, GitHub Actions</p>
 
-    <h2 class="section-title" style="margin-top:48px;">The idea</h2>
-    <p class="about-text">The first version was a Le Wagon bootcamp project: data collection, feature engineering, and two models trained in notebooks. It produced predictions. It was also incomplete, clunky, and impossible to keep running without manual work.</p>
-    <p class="about-text">v2 is a rebuild from scratch: real Python modules instead of notebooks, a daily pipeline that fetches data and retrains itself via GitHub Actions, and an evaluation method I thought was honest enough to trust. That last part turned out to be wrong, and correcting it is most of what this page is about.</p>
+    <h2 class="section-title" style="margin-top:48px;">Where this came from</h2>
+    <p class="about-text">The first version was a bootcamp project: notebooks, a model, a number that looked good. I wanted to make it real, something that predicted Bitcoin, ran on its own, and that I could point at and say it works.</p>
+    <p class="about-text">Rebuilding it properly is what changed the goal. The interesting problem stopped being the model and became the evaluation: how do you know a number is real? What I ended up with is less a prediction system than an apparatus for catching myself being wrong. It caught me.</p>
 
-    <h2 class="section-title" style="margin-top:48px;">How it works</h2>
-    <p class="about-text">Every day at 22:00 UTC, after the US market close, a GitHub Actions workflow runs the whole chain end to end.</p>
-    <p class="about-text">It pulls fresh data from free public sources: BTC and cross-asset prices (S&amp;P 500, Nasdaq, Gold, Dollar Index) from Yahoo Finance, macro series from FRED, on-chain metrics from CoinMetrics, and the Fear and Greed index. A validation script then runs before anything downstream is allowed to touch the data. It checks that today's data is actually there, that no price has silently frozen (a dead source plus forward-fill looks exactly like a flat market), that values sit in sane ranges, that all 52 model features are present and non-null, and that there are no gaps or duplicate dates. If a check fails, the run stops, opens a GitHub issue, and yesterday's model stays in place.</p>
-    <p class="about-text">If it passes, the model retrains on the full history, predicts the next 7-day return, logs it, and commits the result. No manual step anywhere, which also means no prediction on days its own validation blocks the run.</p>
-    <p class="about-text">A four-page Streamlit app sits on top: market dashboard, live forecast, model performance, and documentation. A separate weekly job checks data freshness, prediction cadence, and how long since the model was last retuned, and reports live accuracy alongside them.</p>
+    <h2 class="section-title" style="margin-top:48px;">The question</h2>
+    <p class="about-text">Can a gradient-boosted model predict the direction of Bitcoin's 7-day return better than a naive baseline?</p>
 
-    <h2 class="section-title" style="margin-top:48px;">What the numbers actually say</h2>
-    <p class="about-text">I originally published 76.7% direction accuracy. It was wrong, and finding out why was worth more than the number.</p>
-    <p class="about-text">Two mistakes, both in the evaluation rather than the model.</p>
-    <p class="about-text">The first was counting. I described 2,467 predictions as non-overlapping when they were daily, so consecutive windows shared six of their seven days and one good multi-week call was counted up to seven times. Re-running the evaluation on genuinely independent windows gives 73.3%, across 367 windows.</p>
-    <p class="about-text">The second was worse. The 7-day target is built from the closing price seven days ahead. The walk-forward loop trained on every row up to the prediction date, which meant the last six training rows carried targets computed from prices the model was about to be tested on. It was being trained on the answer. The same re-run with those six rows dropped gives 48.5%, and the correlation between prediction and outcome falls from 0.77 to &minus;0.03. Not a weaker edge. No edge.</p>
-    <p class="about-text">The live log agrees, which is how I know the correction is right. Since late March 2026 the pipeline has logged <span data-live="logged">125</span> predictions, each recorded before the outcome was known. Across the <span data-live="resolved">120</span> that have resolved, it has been right <span data-live="accuracy">48.3%</span> of the time. Two independent measurements, one offline across seven years and one accumulated in the open, landing within a point of each other, against a 52.6% always-up baseline.</p>
-    <p class="about-text">The same leak explains two other results I had believed. The model looked far more accurate when predicting a large move, 90% against 44% once the leak was removed. And it made the model comparison unfair: LSTM and GRU networks tested on the same target both scored a negative R&sup2;, worse than predicting the average return, at 50% and 54% direction accuracy. But the deep-learning evaluation correctly dropped those seven training rows and the XGBoost one did not. The trees won a race the networks were not allowed to run.</p>
-    <p class="about-text">None of this was caught by the monitoring built for exactly this purpose. A weekly job was supposed to compare live accuracy against the naive baseline and open an issue when it slipped. It had been silently failing since March: a one-off manual repair left one date in a different format from the rest, the read threw an error, a broad exception handler swallowed it, and the job reported "all clear" every week with a green checkmark. A check that could not run was being reported as the thing it checked passing. It now alerts when it cannot run, and treats a sudden jump in accuracy as a bug signal rather than good news.</p>
+    <h2 class="section-title" style="margin-top:48px;">The machine</h2>
+    <p class="about-text">A pipeline runs unattended every day at 22:00 UTC: it fetches market, on-chain and macro data, validates it, retrains, predicts, logs the prediction, and commits the result. No manual step. A four-page dashboard exposes the model, its history and its documentation, and a separate weekly job watches for drift.</p>
+    <p class="about-text">The model predicts 7-day return rather than price, deliberately: tree models cannot extrapolate beyond the range they were trained on, so asking one for a price in a market at all-time highs guarantees failure.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">What the numbers say</h2>
+    <p class="about-text">The published result was 76.7% direction accuracy against a 52.6% baseline. Two independent errors produced it.</p>
+    <p class="about-text">Overlapping windows sold as independent. The results file holds 2,467 daily rows, but consecutive 7-day windows share six of their seven days. Counting those as independent predictions inflates the sample roughly sevenfold. The true independent count, using the same windowing as every figure below, is 367.</p>
+    <p class="about-text">Target leakage, which was the dominant effect. The 7-day target is computed from a close seven days ahead. The walk-forward loop trained on every row up to the prediction point, but the six rows immediately before it have targets built from closes that fall after it. The model was being trained on the answer.</p>
+    <p class="about-text">Evaluated properly, on 367 non-overlapping windows from June 2019 to June 2026:</p>
+
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Variant</th><th>Direction accuracy</th><th>R&sup2;</th><th>Correlation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>As built, with the leak</td><td>73.3%</td><td>0.571</td><td>0.774</td></tr>
+          <tr><td>Leak-free</td><td>48.5%</td><td>&minus;0.308</td><td>&minus;0.030</td></tr>
+          <tr><td>Naive, always predict up</td><td>52.6%</td><td>&mdash;</td><td>&mdash;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="about-text">Leak-free, the model scores below chance and below simply guessing the more common direction. A correlation of &minus;0.030 between prediction and outcome is, for practical purposes, none.</p>
+    <p class="about-text">A second claim went with it. The app advertised 90.6% accuracy on high-confidence predictions, where confidence is assigned by the size of the predicted move. Evaluated leak-free, the largest-move tercile scores 44.0%, below the smallest-move tercile at 48.8%. Predicted move size carries no information about whether the prediction is right. The thresholds in the code were themselves calibrated on the leaked evaluation.</p>
+    <p class="about-text">A third claim, that XGBoost beat the deep-learning models, also fails. LSTM scored 50.0% and GRU 54.1% on the same 74 independent windows, but those were evaluated leak-free from the start, while XGBoost was not. It was never a like-for-like comparison. The neural nets were reporting honest numbers the whole time; XGBoost only appeared to beat them because it was reading the answer.</p>
+    <p class="about-text">The strongest evidence is the part I did not control. Since March 2026 the pipeline has logged every prediction before its outcome existed, with no opportunity to re-specify anything afterwards. As of today: <span data-live="logged">125</span> logged, <span data-live="resolved">120</span> resolved, right <span data-live="accuracy">48.3%</span> of the time. The live log and the leak-free re-evaluation were produced by completely different routes and agree within a point. Both say the same thing.</p>
+    <p class="about-text">One caveat in the other direction, stated deliberately: even the 48.5% is optimistic. The hyperparameters were tuned over 100 trials scored on the whole history with no held-out period, and the 52 features were selected from 271 candidates over the full eight years. The defensible claim is no demonstrated edge, not that Bitcoin is unpredictable.</p>
 
     <h2 class="section-title" style="margin-top:48px;">What I would do differently</h2>
-    <p class="about-text">Three fixes, in the order they matter.</p>
-    <p class="about-text">Purge the last seven training rows at every walk-forward step. That is the fix for the leak above, and the one thing to do before trusting any future number.</p>
-    <p class="about-text">Select features inside the walk-forward instead of before it. The 52 features were picked from 271 by importance measured across the full eight years, then scored on those same eight years.</p>
-    <p class="about-text">Tune against a genuinely held-out period. The hyperparameters came from 100 Optuna trials, each scored on the entire history, keeping whichever scored highest. That is a maximum over 100 attempts on the data being reported, not an out-of-sample result.</p>
-    <p class="about-text">None of this is done yet, and none of it is expected to rescue the model. Seven-day Bitcoin direction from free daily data may simply not be predictable, and a null result is the honest outcome rather than a failure. What it would buy is a number worth standing behind.</p>
-    <p class="about-text">The pipeline keeps running in the meantime. Every day it adds one more independently logged prediction to a live test of exactly that question.</p>
+    <p class="about-text">The evaluation was the deliverable and I built it last. Everything that went wrong sits downstream of that: leakage a stricter split would have caught immediately, an overlapping window scheme that inflated both the sample and the score, and feature selection and tuning run over data the model was then scored on.</p>
+    <p class="about-text">The monitor was worse than the model. A weekly job existed precisely to catch this, and it reported "All Clear" with a green check every week from April to August while all three of its checks were broken. Two crashed on a date-format inconsistency left by an earlier manual repair. The third measured file modification time, which in CI only ever reflects when the repository was checked out, so it reported the tuning parameters as zero days old forever; they were 130 days old.</p>
+    <p class="about-text">The date format was not the root cause. Every exception handler appended to an informational list rather than the alerting one, so a check that could not run was reported as the thing it checked passing. A monitor that cannot fail is not a monitor. It needs a test that breaks it on purpose and confirms it screams.</p>
+    <p class="about-text">Separately, deliberately attacking the pipeline, asking what each step assumes and how it could fail silently, found 13 real issues, including market index values frozen for a week and a 17-day gap in Bitcoin's own price history. Both were invisible in the output and would have quietly corrupted anything computed downstream.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">Still running</h2>
+    <p class="about-text">The pipeline still runs daily and still logs every prediction, and the figures above are read from that log. I kept it running deliberately after the retraction. A live record that disagrees with a published claim is the most useful thing this project produced, and switching it off would have destroyed the evidence.</p>
+    <p class="about-text">The one page that used the model to simulate trading returns is unlinked rather than deleted. It was built on the inflated accuracy, and any strategy result derived from it would be fiction.</p>
+
+    <h2 class="section-title" style="margin-top:48px;">Provenance</h2>
+    <p class="about-text">Re-derived 2026-09-01. 76.7%/2,467 and 73.3%/48.5% on 367 windows come from the two committed walk-forward results files, together with their naive baseline. The live log is fetched from the public repository on page load, not hard-coded: <span data-live="logged">125</span> logged, <span data-live="resolved">120</span> resolved, <span data-live="accuracy">48.3%</span>. LSTM and GRU figures come from <code>results/dl_walkforward_summary.csv</code>, using the non-overlapping columns, the ones comparable to XGBoost's 367-window figure (GRU's overlapping-window accuracy is 52.5%; its independent figure, the one that means something here, is 54.1%). The leak diagnosis, the 44.0% tercile figure, the monitor post-mortem and the 13 pipeline issues come from the project's own audit records.</p>
 
     <h2 class="section-title" style="margin-top:48px;">Explore it</h2>
     <p class="about-text">
